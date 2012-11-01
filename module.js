@@ -15,6 +15,10 @@ var define, require;
 
     var defined = {};
 
+    function isType(obj, type) {
+        return Object.prototype.toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase() === type;
+    }
+
     define = function (id, dependencies, factory) {
         var error = [];
         if (factory === undefined) {
