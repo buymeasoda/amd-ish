@@ -16,9 +16,13 @@ var define, require;
     var defined = {};
 
     define = function (id, dependencies, factory) {
+        var error = [];
         if (factory === undefined) {
             factory = dependencies;
             dependencies = [];
+        }
+        if (error.length) {
+            throw new Error(error.join(', '));
         }
         defined[id] = {
             id: id,
