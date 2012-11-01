@@ -52,7 +52,9 @@ var define, require;
         var error = [],
             resolved = [];
         if (isType(id, 'array')) {
-            for (var i = 0; i < id.length; i++) {
+            var i = 0,
+                length = id.length;
+            for (; i < length; i++) {
                 require(id[i]);
             }
             return;
