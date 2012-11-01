@@ -48,7 +48,10 @@ var define, require;
         };
     };
 
-    require = function (id) {};
+    require = function (id) {
+        active[id] = defined[id].factory();
+        return active[id];
+    };
 
     require.reset = function () {
         defined = {};

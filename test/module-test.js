@@ -44,6 +44,13 @@ buster.testCase('Module', {
         assert.exception(function () {
             define('app', function () {});
         })
+    },
+
+    'simple define / require works correctly': function () {
+        var appFactory = this.spy();
+        define('app', [], appFactory);
+        require('app');
+        assert.calledOnce(appFactory);
     }
 
 });
