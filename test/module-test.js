@@ -51,6 +51,13 @@ buster.testCase('Module', {
         define('app', [], appFactory);
         require('app');
         assert.calledOnce(appFactory);
+    },
+
+    'dependencies are optional for define': function () {
+        var appFactory = this.spy();
+        define('app', appFactory);
+        require('app');
+        assert.calledOnce(appFactory);
     }
 
 });
