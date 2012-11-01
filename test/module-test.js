@@ -1,5 +1,9 @@
 buster.testCase('Module', {
 
+    tearDown: function () {
+        require.reset();
+    },
+
     'define and require functions exist': function () {
         assert.isFunction(define);
         assert.isFunction(require);

@@ -29,4 +29,8 @@ var define, require;
 
     require = function (id) {};
 
+    require.reset = function () {
+        defined = {};
+    };
+
 }());
