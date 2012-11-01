@@ -48,14 +48,17 @@ var define, require;
         };
     };
 
-    require = function (id) {
+    require = function (id, callback) {
         var error = [],
             resolved = [];
         if (isType(id, 'array')) {
             var i = 0,
                 length = id.length;
             for (; i < length; i++) {
-                require(id[i]);
+                resolved.push(require(id[i]));
+            }
+            if (isType(callback, 'function')) {
+                callback.apply(null, resolved)
             }
             return;
         }

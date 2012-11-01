@@ -112,6 +112,25 @@ buster.testCase('Module', {
         });
     },
 
+    'callback is fired when module array resolved, passing modules in as parameters': function () {
+        var appFactory = this.stub(),
+            appReturn = 'app module',
+            utilsFactory = this.stub(),
+            utilsReturn = 'utils module',
+            callback = this.spy();
+
+        appFactory.returns(appReturn);
+        utilsFactory.returns(utilsReturn);
+
+        define('app', appFactory);
+        define('utils', utilsFactory);
+
+        require(['app', 'utils'], callback);
+        
+        assert.calledOnce(callback);
+        assert.calledWith(callback, appReturn, utilsReturn);
+    },
+
     '//deal with circular references': function () {}
 
 });
