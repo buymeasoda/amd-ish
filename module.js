@@ -27,7 +27,7 @@ var define, require;
             dependencies = [];
         }
         if (defined.hasOwnProperty(id) || active.hasOwnProperty(id)) {
-            error.push('Module already defined');
+            error.push('Module ' + id + ' already defined');
         }
         if (!isType(id, 'string')) {
             error.push('Id must be a string');
@@ -55,14 +55,14 @@ var define, require;
             return active[id];
         }
         if (!defined.hasOwnProperty(id)) {
-            error.push('Module not defined');
+            error.push('Module ' + id + ' not defined');
         } else {
             var i = 0,
                 dependencies = defined[id].dependencies,
                 length = dependencies.length;
             for (; i < length; i++) {
                 if (!defined.hasOwnProperty(dependencies[i]) && !active.hasOwnProperty(dependencies[i]))  {
-                    error.push('Dependency not resolved: ' + dependencies[i]);
+                    error.push('Dependency ' + dependencies[i] + ' not resolved');
                 }
                 if (defined.hasOwnProperty(dependencies[i])) {
                     active[dependencies[i]] = require(dependencies[i]);
