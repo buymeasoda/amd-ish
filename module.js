@@ -49,6 +49,9 @@ var define, require;
     };
 
     require = function (id) {
+        if (active.hasOwnProperty(id)) {
+            return active[id];
+        }
         if (!defined.hasOwnProperty(id)) {
             throw new Error('Module not defined');
         }
