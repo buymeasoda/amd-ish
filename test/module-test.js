@@ -66,4 +66,21 @@ buster.testCase('Module', {
         });
     },
 
+    'requiring a defined module with unmet dependencies throws an exception': function () {
+        define('app', ['utils'], function () {});
+        assert.exception(function () {
+            require('app');
+        });
+    },
+
+    'require works with a defined module with met dependencies': function () {
+        var appFactory = this.spy(),
+            utilsFactory = this.spy();
+        define('app', ['utils'], appFactory);
+        define('utils', utilsFactory);
+        require('app');
+        assert.calledOnce(appFactory);
+        assert.calledOnce(utilsFactory);
+    }
+
 });

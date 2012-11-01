@@ -49,13 +49,30 @@ var define, require;
     };
 
     require = function (id) {
+        var met = [],
+            unmet = [],
+            dependecy;
+
         if (active.hasOwnProperty(id)) {
             return active[id];
         }
         if (!defined.hasOwnProperty(id)) {
             throw new Error('Module not defined');
         }
-        active[id] = defined[id].factory();
+
+        for (var i = 0; i < defined[id].dependencies.length; i++) {
+            dependency = defined[id].dependencies[i];
+            if (!defined.hasOwnProperty(dependency) && !active.hasOwnProperty(dependency))  {
+                throw new Error('Module dependency not met: ' + dependency);
+            }
+            if (defined.hasOwnProperty(dependency)) {
+                active[dependency] = require(dependency);
+                delete defined[dependency];
+            }
+            met.push(active[dependency]);
+        }
+
+        active[id] = defined[id].factory.apply(null, met);
         delete defined[id];
         return active[id];
     };
