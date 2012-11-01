@@ -13,7 +13,8 @@ var define, require;
 
 (function (undefined) {
 
-    var defined = {};
+    var defined = {},
+        active = {};
 
     function isType(obj, type) {
         return Object.prototype.toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase() === type;
@@ -51,6 +52,7 @@ var define, require;
 
     require.reset = function () {
         defined = {};
+        active = {};
     };
 
 }());
