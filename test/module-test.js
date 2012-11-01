@@ -85,6 +85,25 @@ buster.testCase('Module', {
         require('app');
         assert.calledOnce(appFactory);
         assert.calledOnce(utilsFactory);
-    }
+    },
+
+    'require accepts array of modules': function () {
+        var appFactory = this.spy(),
+            utilsFactory = this.spy();
+        define('app', appFactory);
+        define('utils', utilsFactory);
+        require(['app', 'utils']);
+        assert.calledOnce(appFactory);
+        assert.calledOnce(utilsFactory);
+    },
+
+    'array of require modules throws exception for missing module': function () {
+        define('app', function () {});
+        assert.exception(function () {
+            require(['app', 'utils']);
+        });
+    },
+
+    '//deal with circular references': function () {}
 
 });

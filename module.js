@@ -51,6 +51,12 @@ var define, require;
     require = function (id) {
         var error = [],
             resolved = [];
+        if (isType(id, 'array')) {
+            for (var i = 0; i < id.length; i++) {
+                require(id[i]);
+            }
+            return;
+        }
         if (active.hasOwnProperty(id)) {
             return active[id];
         }
