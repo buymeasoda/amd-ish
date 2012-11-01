@@ -16,6 +16,10 @@ var define, require;
     var defined = {};
 
     define = function (id, dependencies, factory) {
+        if (factory === undefined) {
+            factory = dependencies;
+            dependencies = [];
+        }
         defined[id] = {
             id: id,
             dependencies: dependencies,
