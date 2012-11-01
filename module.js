@@ -31,6 +31,12 @@ var define, require;
         if (!isType(id, 'string')) {
             error.push('Id must be a string');
         }
+        if (!isType(dependencies, 'array')) {
+            error.push('Dependencies must be an array');
+        }
+        if (!isType(factory, 'function') && !isType(factory, 'object')) {
+            error.push('Factory must be a function or object');
+        }
         if (error.length) {
             throw new Error(error.join(', '));
         }
