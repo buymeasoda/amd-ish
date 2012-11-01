@@ -44,6 +44,10 @@ buster.testCase('Module', {
         assert.exception(function () {
             define('app', function () {});
         })
+        require('app');
+        assert.exception(function () {
+            define('app', function () {});
+        })
     },
 
     'simple define / require works correctly': function () {

@@ -26,7 +26,7 @@ var define, require;
             factory = dependencies;
             dependencies = [];
         }
-        if (defined.hasOwnProperty(id)) {
+        if (defined.hasOwnProperty(id) || active.hasOwnProperty(id)) {
             error.push('Module already defined');
         }
         if (!isType(id, 'string')) {
