@@ -37,6 +37,13 @@ buster.testCase('Module', {
         assert.exception(function () {
             define({}, [], function () {});
         });
+    },
+
+    'define throws an exception if module already defined': function () {
+        define('app', [], function () {});
+        assert.exception(function () {
+            define('app', function () {});
+        })
     }
 
 });
