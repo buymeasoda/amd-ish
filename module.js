@@ -51,8 +51,7 @@ var define, require;
     require = function (id) {
         var error = [],
             met = [],
-            unmet = [],
-            dependecy;
+            unmet = [];
 
         if (active.hasOwnProperty(id)) {
             return active[id];
@@ -60,21 +59,23 @@ var define, require;
         if (!defined.hasOwnProperty(id)) {
             error.push('Module not defined');
         } else {
-            for (var i = 0; i < defined[id].dependencies.length; i++) {
-                dependency = defined[id].dependencies[i];
-                if (!defined.hasOwnProperty(dependency) && !active.hasOwnProperty(dependency))  {
-                    error.push('Dependency not met: ' + dependency);
+            var i = 0,
+                dependencies = defined[id].dependencies,
+                length = dependencies.length;
+            for (; i < length; i++) {
+                if (!defined.hasOwnProperty(dependencies[i]) && !active.hasOwnProperty(dependencies[i]))  {
+                    error.push('Dependency not met: ' + dependencies[i]);
                 }
-                if (defined.hasOwnProperty(dependency)) {
-                    active[dependency] = require(dependency);
-                    delete defined[dependency];
+                if (defined.hasOwnProperty(dependencies[i])) {
+                    active[dependencies[i]] = require(dependencies[i]);
+                    delete defined[dependencies[i]];
                 }
-                met.push(active[dependency]);
+                met.push(active[dependencies[i]]);
             }
         }
         if (error.length) {
             throw new Error(error.join(', '));
-        }        
+        }
         active[id] = defined[id].factory.apply(null, met);
         delete defined[id];
         return active[id];
