@@ -50,9 +50,7 @@ var define, require;
 
     require = function (id) {
         var error = [],
-            met = [],
-            unmet = [];
-
+            resolved = [];
         if (active.hasOwnProperty(id)) {
             return active[id];
         }
@@ -64,19 +62,19 @@ var define, require;
                 length = dependencies.length;
             for (; i < length; i++) {
                 if (!defined.hasOwnProperty(dependencies[i]) && !active.hasOwnProperty(dependencies[i]))  {
-                    error.push('Dependency not met: ' + dependencies[i]);
+                    error.push('Dependency not resolved: ' + dependencies[i]);
                 }
                 if (defined.hasOwnProperty(dependencies[i])) {
                     active[dependencies[i]] = require(dependencies[i]);
                     delete defined[dependencies[i]];
                 }
-                met.push(active[dependencies[i]]);
+                resolved.push(active[dependencies[i]]);
             }
         }
         if (error.length) {
             throw new Error(error.join(', '));
         }
-        active[id] = defined[id].factory.apply(null, met);
+        active[id] = defined[id].factory.apply(null, resolved);
         delete defined[id];
         return active[id];
     };
