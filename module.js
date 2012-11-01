@@ -49,7 +49,11 @@ var define, require;
     };
 
     require = function (id) {
+        if (!defined.hasOwnProperty(id)) {
+            throw new Error('Module not defined');
+        }
         active[id] = defined[id].factory();
+        delete defined[id];
         return active[id];
     };
 

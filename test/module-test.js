@@ -58,6 +58,12 @@ buster.testCase('Module', {
         define('app', appFactory);
         require('app');
         assert.calledOnce(appFactory);
-    }
+    },
+
+    'requiring an undefined module throws an exception': function () {
+        assert.exception(function () {
+            require('app');
+        });
+    },
 
 });
