@@ -50,20 +50,6 @@ buster.testCase('Module', {
         })
     },
 
-    'simple define / require works correctly': function () {
-        var appFactory = this.spy();
-        define('app', [], appFactory);
-        require('app');
-        assert.calledOnce(appFactory);
-    },
-
-    'dependencies are optional for define': function () {
-        var appFactory = this.spy();
-        define('app', appFactory);
-        require('app');
-        assert.calledOnce(appFactory);
-    },
-
     'requiring an undefined module throws an exception': function () {
         assert.exception(function () {
             require('app');
@@ -75,6 +61,28 @@ buster.testCase('Module', {
         assert.exception(function () {
             require('app');
         });
+    },
+
+    'simple define / require works correctly': function () {
+        var appFactory = this.stub(),
+            appReturn = 'app module',
+            app;
+        appFactory.returns(appReturn);
+        define('app', [], appFactory);
+        app = require('app');
+        assert.calledOnce(appFactory);
+        assert.equals(app, appReturn);
+    },
+
+    'dependencies are optional for define': function () {
+        var appFactory = this.stub(),
+            appReturn = 'app module',
+            app;
+        appFactory.returns(appReturn);
+        define('app', appFactory);
+        app = require('app');
+        assert.calledOnce(appFactory);
+        assert.equals(app, appReturn);
     },
 
     'require works with a defined module with met dependencies': function () {
