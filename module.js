@@ -24,6 +24,9 @@ var define, require;
         if (defined.hasOwnProperty(id)) {
             error.push('Module already defined');
         }
+        if (typeof id !== 'string') {
+            error.push('Id must be a string');
+        }
         if (error.length) {
             throw new Error(error.join(', '));
         }
