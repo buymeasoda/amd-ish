@@ -13,7 +13,15 @@ var define, require;
 
 (function (undefined) {
 
-    define = function (id, dependencies, factory) {};
+    var defined = {};
+
+    define = function (id, dependencies, factory) {
+        defined[id] = {
+            id: id,
+            dependencies: dependencies,
+            factory: factory
+        };
+    };
 
     require = function (id) {};
 
