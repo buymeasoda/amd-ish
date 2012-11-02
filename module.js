@@ -27,7 +27,7 @@ var define, require;
             factory = dependencies;
             dependencies = [];
         }
-        if (defined.hasOwnProperty(id) || active.hasOwnProperty(id)) {
+        if (defined.hasOwnProperty(id)) {
             error.push('Module ' + id + ' already defined');
         }
         if (!isType(id, 'string')) {
@@ -83,7 +83,6 @@ var define, require;
             resolved.push(!stack.hasOwnProperty(dependencies[i]) ? resolve(dependencies[i]) : active[dependencies[i]]);
         }
         active[id] = isType(defined[id].factory, 'function') ? defined[id].factory.apply(null, resolved) : defined[id].factory;
-        delete defined[id];
         return active[id];
     }
 
