@@ -53,9 +53,7 @@ var define, require;
         var resolved = [];
         stack = {};
         if (isType(id, 'array')) {
-            var i = 0,
-                length = id.length;
-            for (; i < length; i++) {
+            for (var i = 0, length = id.length; i < length; i++) {
                 resolved.push(resolve(id[i]));
             }
             return isType(callback, 'function') ? callback.apply(null, resolved) : resolved;
@@ -78,10 +76,7 @@ var define, require;
         if (!defined.hasOwnProperty(id)) {
             throw new Error('Module ' + id + ' not defined');
         }
-        var i = 0,
-            dependencies = defined[id].dependencies,
-            length = dependencies.length;
-        for (; i < length; i++) {
+        for (var i = 0, dependencies = defined[id].dependencies, length = dependencies.length; i < length; i++) {
             resolved.push(!stack.hasOwnProperty(dependencies[i]) ? resolve(dependencies[i]) : active[dependencies[i]]);
         }
         active[id] = isType(defined[id].factory, 'function') ? defined[id].factory.apply(null, resolved) : defined[id].factory;
