@@ -84,14 +84,7 @@ var define, require;
             dependencies = defined[id].dependencies,
             length = dependencies.length;
         for (; i < length; i++) {
-            if (!defined.hasOwnProperty(dependencies[i]) && !active.hasOwnProperty(dependencies[i]))  {
-                throw new Error('Dependency ' + dependencies[i] + ' not resolved');
-            }
-            if (defined.hasOwnProperty(dependencies[i]) && !stack.hasOwnProperty(dependencies[i])) {
-                active[dependencies[i]] = resolve(dependencies[i]);
-                delete defined[dependencies[i]];
-            }
-            resolved.push(active[dependencies[i]] || undefined);
+            resolved.push(!stack.hasOwnProperty(dependencies[i]) ? resolve(dependencies[i]) : undefined);
         }
         active[id] = isType(defined[id].factory, 'function') ? defined[id].factory.apply(null, resolved) : defined[id].factory;
         delete defined[id];
