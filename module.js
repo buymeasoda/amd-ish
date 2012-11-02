@@ -14,7 +14,8 @@ var define, require;
 (function (undefined) {
 
     var defined = {},
-        active = {};
+        active = {},
+        stack = {};
 
     function isType(obj, type) {
         return Object.prototype.toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase() === type;
@@ -49,50 +50,52 @@ var define, require;
     };
 
     require = function (id, callback) {
-        var error = [],
-            resolved = [];
+        var resolved = [];
+        stack = {};
         if (isType(id, 'array')) {
             var i = 0,
                 length = id.length;
             for (; i < length; i++) {
-                resolved.push(require(id[i]));
+                resolved.push(resolve(id[i]));
             }
             if (isType(callback, 'function')) {
-                callback.apply(null, resolved)
+                return callback.apply(null, resolved);
             }
-            return;
-        }
-        if (active.hasOwnProperty(id)) {
-            return active[id];
-        }
-        if (!defined.hasOwnProperty(id)) {
-            error.push('Module ' + id + ' not defined');
         } else {
-            var i = 0,
-                dependencies = defined[id].dependencies,
-                length = dependencies.length;
-            for (; i < length; i++) {
-                if (!defined.hasOwnProperty(dependencies[i]) && !active.hasOwnProperty(dependencies[i]))  {
-                    error.push('Dependency ' + dependencies[i] + ' not resolved');
-                }
-                if (defined.hasOwnProperty(dependencies[i])) {
-                    active[dependencies[i]] = require(dependencies[i]);
-                    delete defined[dependencies[i]];
-                }
-                resolved.push(active[dependencies[i]]);
-            }
+            return resolve(id);
         }
-        if (error.length) {
-            throw new Error(error.join(', '));
-        }
-        active[id] = defined[id].factory.apply(null, resolved);
-        delete defined[id];
-        return active[id];
     };
 
     require.reset = function () {
         defined = {};
         active = {};
     };
+
+    function resolve(id) {
+        var resolved = [];
+        stack[id] = true;
+        if (active.hasOwnProperty(id)) {
+            return active[id];
+        }
+        if (!defined.hasOwnProperty(id)) {
+            throw new Error('Module ' + id + ' not defined');
+        }
+        var i = 0,
+            dependencies = defined[id].dependencies,
+            length = dependencies.length;
+        for (; i < length; i++) {
+            if (!defined.hasOwnProperty(dependencies[i]) && !active.hasOwnProperty(dependencies[i]))  {
+                throw new Error('Dependency ' + dependencies[i] + ' not resolved');
+            }
+            if (defined.hasOwnProperty(dependencies[i]) && !stack.hasOwnProperty(dependencies[i])) {
+                active[dependencies[i]] = resolve(dependencies[i]);
+                delete defined[dependencies[i]];
+            }
+            resolved.push(active[dependencies[i]] || undefined);
+        }
+        active[id] = isType(defined[id].factory, 'function') ? defined[id].factory.apply(null, resolved) : defined[id].factory;
+        delete defined[id];
+        return active[id];
+    }
 
 }());
