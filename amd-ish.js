@@ -1,7 +1,7 @@
 
 // amd-ish
 
-// Create a simple (non-script loading), amd based define / require implementation
+// Simple (non-script loading), amd based define / require implementation
 // for use in already concatinated (build process parsed) setups
 
 // Sample usage
