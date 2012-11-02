@@ -7,6 +7,6 @@ config["module tests"] = {
         "module.js"
     ],
     tests: [
-        "test/module-test.js"
+        "test/*-test.js"
     ]
 };
