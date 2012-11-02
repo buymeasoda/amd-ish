@@ -1,13 +1,21 @@
 
 // Create a simple (non-script loading), amd based define / require implementation
+// for use in already concatinated (build process parsed) setups
 
 // Sample usage:
 
-/*
-define('app', ['config', 'utils'], function (config, utils) {});
+// Simple define
+// define('app', function () {});
+// define('app', {});
 
-var app = require('app');
-*/
+// Define with dependencies
+// define('app', ['config', 'utils'], function (config, utils) {});
+
+// Inline require
+// var app = require('app');
+
+// Callback based require
+// require(['app', 'widget'], function (app, widget) {});
 
 var define, require;
 
