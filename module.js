@@ -58,9 +58,7 @@ var define, require;
             for (; i < length; i++) {
                 resolved.push(resolve(id[i]));
             }
-            if (isType(callback, 'function')) {
-                return callback.apply(null, resolved);
-            }
+            return isType(callback, 'function') ? callback.apply(null, resolved) : resolved;
         } else {
             return resolve(id);
         }
