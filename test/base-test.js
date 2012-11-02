@@ -120,6 +120,15 @@ buster.testCase('Module Base', {
         });
     },
 
+    'array of require modules throws exception for non-string based id': function () {
+        define('app', function () {});
+        define('utils', function () {});
+        define('config', function () {});
+        assert.exception(function () {
+            require(['app', ['utils', 'config']]);
+        });
+    },
+
     'callback is fired when module array resolved, passing modules in as parameters': function () {
         var appFactory = this.stub(),
             appReturn = 'app module',
