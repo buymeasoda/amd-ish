@@ -63,7 +63,7 @@ buster.testCase('Module', {
         });
     },
 
-    'simple define / require works correctly': function () {
+    'simple define / require with a function factory works correctly': function () {
         var appFactory = this.stub(),
             appReturn = 'app module',
             app;
@@ -72,6 +72,14 @@ buster.testCase('Module', {
         app = require('app');
         assert.calledOnce(appFactory);
         assert.equals(app, appReturn);
+    },
+
+    'simple define / require with an object factory works correctly': function () {
+        var appFactory = {},
+            app;
+        define('app', [], appFactory);
+        app = require('app');
+        assert.equals(app, appFactory);
     },
 
     'dependencies are optional for define': function () {
