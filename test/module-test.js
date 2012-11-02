@@ -1,4 +1,4 @@
-buster.testCase('Module', {
+buster.testCase('Module Base', {
 
     tearDown: function () {
         require.reset();
