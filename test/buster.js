@@ -1,10 +1,10 @@
 var config = module.exports;
 
-config["module tests"] = {
+config["amd-ish tests"] = {
     env: "browser",
     rootPath: "../",
     sources: [
-        "module.js"
+        "amd-ish.js"
     ],
     tests: [
         "test/*-test.js"
