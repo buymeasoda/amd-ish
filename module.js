@@ -69,6 +69,9 @@ var define, require;
 
     function resolve(id) {
         var resolved = [];
+        if (!isType(id, 'string')) {
+            throw new Error('Id must be a string');
+        }
         if (active.hasOwnProperty(id)) {
             return active[id];
         }
