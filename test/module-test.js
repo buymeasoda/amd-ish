@@ -139,6 +139,25 @@ buster.testCase('Module', {
         assert.calledWith(callback, appReturn, utilsReturn);
     },
 
-    '//deal with circular references': function () {}
+    'handle with circular references': function () {
+        var appFactory = this.stub(),
+            appReturn = 'app module',
+            utilsFactory = this.stub(),
+            utilsReturn = 'utils module',
+            callback = this.spy(),
+            app;
+
+        appFactory.returns(appReturn);
+        utilsFactory.returns(utilsReturn);
+
+        define('app', ['utils'], appFactory);
+        define('utils', ['app'], utilsFactory);
+
+        app = require('app');
+        
+        assert.calledOnce(appFactory);
+        assert.calledOnce(utilsFactory);
+        assert.equals(app, appReturn);
+    }
 
 });
