@@ -69,13 +69,13 @@ var define, require;
 
     function resolve(id) {
         var resolved = [];
-        stack[id] = true;
         if (active.hasOwnProperty(id)) {
             return active[id];
         }
         if (!defined.hasOwnProperty(id)) {
             throw new Error('Module ' + id + ' not defined');
         }
+        stack[id] = true;
         for (var i = 0, dependencies = defined[id].dependencies, length = dependencies.length; i < length; i++) {
             resolved.push(!stack.hasOwnProperty(dependencies[i]) ? resolve(dependencies[i]) : active[dependencies[i]]);
         }
