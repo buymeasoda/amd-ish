@@ -82,7 +82,7 @@ var define, require;
             dependencies = defined[id].dependencies,
             length = dependencies.length;
         for (; i < length; i++) {
-            resolved.push(!stack.hasOwnProperty(dependencies[i]) ? resolve(dependencies[i]) : undefined);
+            resolved.push(!stack.hasOwnProperty(dependencies[i]) ? resolve(dependencies[i]) : active[dependencies[i]]);
         }
         active[id] = isType(defined[id].factory, 'function') ? defined[id].factory.apply(null, resolved) : defined[id].factory;
         delete defined[id];
